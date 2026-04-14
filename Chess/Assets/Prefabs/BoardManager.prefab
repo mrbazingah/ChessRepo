@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4874364191114233821
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5507341160070598747}
+  - component: {fileID: 8388321092117282216}
+  m_Layer: 0
+  m_Name: BoardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5507341160070598747
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4874364191114233821}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8388321092117282216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4874364191114233821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11cf72f953ea7454395ff440a1dcd4c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoardGenerator
+  cellPrefab: {fileID: 7717965327581551954, guid: 21e3176c3b4615d439f33a006453777d, type: 3}
+  cellParent: {fileID: 0}
+  boardSize: 8
+  startPos: {x: -3.5, y: -3.5}
+  lightColor: {r: 1, g: 0.8633998, b: 0.740566, a: 1}
+  darkColor: {r: 0.5849056, g: 0.43562463, b: 0.30624774, a: 1}
+  pawnPrefab: {fileID: 4262549721440028882, guid: c411c089c4f5b7c46bdeb74cb42a31ac, type: 3}
+  pawnParent: {fileID: 0}
+  pawnCount: 8
+  knightPrefab: {fileID: 1179254560972427110, guid: 47a67c2e06a911741bc01eb5d4baab3e, type: 3}
+  knightParent: {fileID: 0}
+  knightCount: 2
+  bishopPrefab: {fileID: 6188410212813873739, guid: b5c48f14d44eedd4687f2875ebbf24ec, type: 3}
+  bishopParent: {fileID: 0}
+  bishopCount: 2
