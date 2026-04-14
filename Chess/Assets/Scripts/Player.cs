@@ -33,6 +33,17 @@ public class Player : MonoBehaviour
         {
             if (hit.collider.gameObject.tag != "Cell")
             {
+                // If the king is selected and the user clicks a rook, try to castle
+                if (selectedPiece != null)
+                {
+                    King king = selectedPiece.GetComponent<King>();
+                    if (king != null && king.TryCastle(hit.collider.gameObject))
+                    {
+                        selectedPiece = null;
+                        return;
+                    }
+                }
+
                 selectedPiece = hit.collider.gameObject;
             }
             else if (hit.collider.gameObject.tag == "Cell" && selectedPiece != null)

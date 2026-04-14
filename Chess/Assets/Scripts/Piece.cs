@@ -34,7 +34,7 @@ public class Piece : MonoBehaviour
         return false;
     }
 
-    public void MovePiece(GameObject newCell)
+    public virtual void MovePiece(GameObject newCell)
     {
         hasMoved = true;
         SetCurrentCell(newCell);
@@ -50,5 +50,10 @@ public class Piece : MonoBehaviour
     public GameObject GetCurrentCell()
     {
         return currentCell;
+    }
+
+    public bool HasMoved()
+    {
+        return hasMoved;
     }
 }

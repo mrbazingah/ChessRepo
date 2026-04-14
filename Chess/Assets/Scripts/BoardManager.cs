@@ -22,6 +22,18 @@ public class BoardManager : MonoBehaviour
     [SerializeField] GameObject bishopPrefab;
     [SerializeField] GameObject bishopParent;
     [SerializeField] int bishopCount;
+    [Header("Rook")]
+    [SerializeField] GameObject rookPrefab;
+    [SerializeField] GameObject rookParent;
+    [SerializeField] int rookCount;
+    [Header("Queen")]
+    [SerializeField] GameObject queenPrefab;
+    [SerializeField] GameObject queenParent;
+    [SerializeField] int queenCount;
+    [Header("King")]
+    [SerializeField] GameObject kingPrefab;
+    [SerializeField] GameObject kingParent;
+    [SerializeField] int kingCount;
 
     GameObject[,] board;
 
@@ -96,6 +108,45 @@ public class BoardManager : MonoBehaviour
             piece.Init(this);
             piece.SetCurrentCell(board[row, 0]);
         }
+
+        // Rooks
+        for (int i = 0; i < rookCount; i++)
+        {
+            int row = i == 0 ? 0 : 7;
+            Vector2 spawnPos = board[row, 0].transform.position;
+            GameObject newRook = Instantiate(rookPrefab, spawnPos, Quaternion.identity);
+            newRook.transform.SetParent(rookParent.transform);
+
+            Piece piece = newRook.GetComponent<Piece>();
+            piece.Init(this);
+            piece.SetCurrentCell(board[row, 0]);
+        }
+
+        // Queen
+        for (int i = 0; i < queenCount; i++)
+        {
+            int row = 3;
+            Vector2 spawnPos = board[row, 0].transform.position;
+            GameObject newQueen = Instantiate(queenPrefab, spawnPos, Quaternion.identity);
+            newQueen.transform.SetParent(queenParent.transform);
+
+            Piece piece = newQueen.GetComponent<Piece>();
+            piece.Init(this);
+            piece.SetCurrentCell(board[row, 0]);
+        }
+
+        // King
+        for (int i = 0; i < kingCount; i++)
+        {
+            int row = 4;
+            Vector2 spawnPos = board[row, 0].transform.position;
+            GameObject newKing = Instantiate(kingPrefab, spawnPos, Quaternion.identity);
+            newKing.transform.SetParent(kingParent.transform);
+
+            Piece piece = newKing.GetComponent<Piece>();
+            piece.Init(this);
+            piece.SetCurrentCell(board[row, 0]);
+        }
     }
 
     public GameObject GetCell(int row, int col)
@@ -115,7 +166,7 @@ public class BoardManager : MonoBehaviour
             int newRow = coords.x + directions[i].x;
             int newCol = coords.y + directions[i].y;
             GameObject cell = GetCell(newRow, newCol);
-            if (cell != null) { result[newRow, newCol] = cell; }
+            if (cell != null && !IsCellOccupied(cell)) { result[newRow, newCol] = cell; }
         }
 
         return result;

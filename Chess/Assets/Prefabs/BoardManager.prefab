@@ -59,3 +59,9 @@ MonoBehaviour:
   bishopPrefab: {fileID: 6188410212813873739, guid: b5c48f14d44eedd4687f2875ebbf24ec, type: 3}
   bishopParent: {fileID: 0}
   bishopCount: 2
+  rookPrefab: {fileID: 1876950709200985170, guid: e9525a15bb9ac804f9073fa94d7ec1ef, type: 3}
+  rookParent: {fileID: 0}
+  rookCount: 2
+  queenPrefab: {fileID: 1004830067679698448, guid: 930b55fd7c0f48e42aaec9be0ed5603f, type: 3}
+  queenParent: {fileID: 0}
+  queenCount: 1
