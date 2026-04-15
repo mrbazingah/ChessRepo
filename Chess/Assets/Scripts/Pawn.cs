@@ -5,20 +5,21 @@ public class Pawn : Piece
     public override void CalculateMoves()
     {
         Vector2Int[] directions;
+        int forward = pieceColor == PieceColor.Light ? 1 : -1;
 
         if (!hasMoved)
         {
             directions = new Vector2Int[]
             {
-                new Vector2Int(0, 1),
-                new Vector2Int(0, 2)
+                new Vector2Int(0, forward),
+                new Vector2Int(0, forward * 2)
             };
         }
         else
         {
             directions = new Vector2Int[]
             {
-                new Vector2Int(0, 1)
+                new Vector2Int(0, forward)
             };
         }
 

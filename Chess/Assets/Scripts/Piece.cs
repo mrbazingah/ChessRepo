@@ -8,9 +8,27 @@ public class Piece : MonoBehaviour
     protected bool hasMoved = false;
     protected BoardManager boardManager;
 
+    public enum PieceColor
+    {
+        Light,
+        Dark,
+    }
+
+    protected PieceColor pieceColor;
+
     public void Init(BoardManager manager)
     {
         boardManager = manager;
+    }
+
+    public void SetPieceColor(PieceColor color)
+    {
+        pieceColor = color;
+    }
+
+    public PieceColor GetPieceColor()
+    {
+        return pieceColor;
     }
 
     public virtual void CalculateMoves() { }

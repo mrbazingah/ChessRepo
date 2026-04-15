@@ -1,3 +1,4 @@
+using UnityEditor.Search;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI.Table;
 
@@ -8,8 +9,8 @@ public class BoardManager : MonoBehaviour
     [SerializeField] GameObject cellParent;
     [SerializeField] int boardSize;
     [SerializeField] Vector2 startPos;
-    [SerializeField] Color lightColor;
-    [SerializeField] Color darkColor;
+    [SerializeField] Color lightCellColor;
+    [SerializeField] Color darkCellColor;
     [Header("Pawn")]
     [SerializeField] GameObject pawnPrefab;
     [SerializeField] GameObject pawnParent;
@@ -34,6 +35,9 @@ public class BoardManager : MonoBehaviour
     [SerializeField] GameObject kingPrefab;
     [SerializeField] GameObject kingParent;
     [SerializeField] int kingCount;
+    [Space]
+    [SerializeField] Color lightPieceColor;
+    [SerializeField] Color darkPieceColor;
 
     GameObject[,] board;
 
@@ -45,6 +49,7 @@ public class BoardManager : MonoBehaviour
 
         GenerateBoard();
         GenerateWhitePieces();
+        GenerateBlackPieces();
     }
 
     void GenerateBoard()
@@ -62,7 +67,7 @@ public class BoardManager : MonoBehaviour
                 newCell.name = $"Cell {row}, {col}";
 
                 SpriteRenderer cellRenderer = newCell.GetComponent<SpriteRenderer>();
-                cellRenderer.color = (row + col) % 2 != 0 ? lightColor : darkColor;
+                cellRenderer.color = (row + col) % 2 != 0 ? lightCellColor : darkCellColor;
 
                 board[row, col] = newCell;
             }
@@ -74,79 +79,102 @@ public class BoardManager : MonoBehaviour
         // Pawns
         for (int i = 0; i < pawnCount; i++)
         {
-            Vector2 spawnPos = board[i, 1].transform.position;
-            GameObject newPawn = Instantiate(pawnPrefab, spawnPos, Quaternion.identity);
-            newPawn.transform.SetParent(pawnParent.transform);
-
-            Piece piece = newPawn.GetComponent<Piece>();
-            piece.Init(this);
-            piece.SetCurrentCell(board[i, 1]);
+            SpawnPiece(i, 1, pawnPrefab, pawnParent, Piece.PieceColor.Light);
         }
 
         // Knights
         for (int i = 0; i < knightCount; i++)
         {
             int row = i == 0 ? 1 : 6;
-            Vector2 spawnPos = board[row, 0].transform.position;
-            GameObject newKnight = Instantiate(knightPrefab, spawnPos, Quaternion.identity);
-            newKnight.transform.SetParent(knightParent.transform);
-
-            Piece piece = newKnight.GetComponent<Piece>();
-            piece.Init(this);
-            piece.SetCurrentCell(board[row, 0]);
+            SpawnPiece(row, 0, knightPrefab, knightParent, Piece.PieceColor.Light);
         }
 
         // Bishops
         for (int i = 0; i < bishopCount; i++)
         {
             int row = i == 0 ? 2 : 5;
-            Vector2 spawnPos = board[row, 0].transform.position;
-            GameObject newBishop = Instantiate(bishopPrefab, spawnPos, Quaternion.identity);
-            newBishop.transform.SetParent(bishopParent.transform);
-
-            Piece piece = newBishop.GetComponent<Piece>();
-            piece.Init(this);
-            piece.SetCurrentCell(board[row, 0]);
+            SpawnPiece(row, 0, bishopPrefab, bishopParent, Piece.PieceColor.Light);
         }
 
         // Rooks
         for (int i = 0; i < rookCount; i++)
         {
             int row = i == 0 ? 0 : 7;
-            Vector2 spawnPos = board[row, 0].transform.position;
-            GameObject newRook = Instantiate(rookPrefab, spawnPos, Quaternion.identity);
-            newRook.transform.SetParent(rookParent.transform);
-
-            Piece piece = newRook.GetComponent<Piece>();
-            piece.Init(this);
-            piece.SetCurrentCell(board[row, 0]);
+            SpawnPiece(row, 0, rookPrefab, rookParent, Piece.PieceColor.Light);
         }
 
         // Queen
         for (int i = 0; i < queenCount; i++)
         {
             int row = 3;
-            Vector2 spawnPos = board[row, 0].transform.position;
-            GameObject newQueen = Instantiate(queenPrefab, spawnPos, Quaternion.identity);
-            newQueen.transform.SetParent(queenParent.transform);
-
-            Piece piece = newQueen.GetComponent<Piece>();
-            piece.Init(this);
-            piece.SetCurrentCell(board[row, 0]);
+            SpawnPiece(row, 0, queenPrefab, queenParent, Piece.PieceColor.Light);
         }
 
         // King
         for (int i = 0; i < kingCount; i++)
         {
             int row = 4;
-            Vector2 spawnPos = board[row, 0].transform.position;
-            GameObject newKing = Instantiate(kingPrefab, spawnPos, Quaternion.identity);
-            newKing.transform.SetParent(kingParent.transform);
-
-            Piece piece = newKing.GetComponent<Piece>();
-            piece.Init(this);
-            piece.SetCurrentCell(board[row, 0]);
+            SpawnPiece(row, 0, kingPrefab, kingParent, Piece.PieceColor.Light);
         }
+    }
+
+    void GenerateBlackPieces()
+    {
+        // Pawns
+        for (int i = 0; i < pawnCount; i++)
+        {
+            SpawnPiece(i, 6, pawnPrefab, pawnParent, Piece.PieceColor.Dark);
+        }
+
+        // Knights
+        for (int i = 0; i < knightCount; i++)
+        {
+            int row = i == 0 ? 1 : 6;
+            SpawnPiece(row, 7, knightPrefab, knightParent, Piece.PieceColor.Dark);
+        }
+
+        // Bishops
+        for (int i = 0; i < bishopCount; i++)
+        {
+            int row = i == 0 ? 2 : 5;
+            SpawnPiece(row, 7, bishopPrefab, bishopParent, Piece.PieceColor.Dark);
+        }
+
+        // Rooks
+        for (int i = 0; i < rookCount; i++)
+        {
+            int row = i == 0 ? 0 : 7;
+            SpawnPiece(row, 7, rookPrefab, rookParent, Piece.PieceColor.Dark);
+        }
+
+        // Queen
+        for (int i = 0; i < queenCount; i++)
+        {
+            int row = 3;
+            SpawnPiece(row, 7, queenPrefab, queenParent, Piece.PieceColor.Dark);
+        }
+
+        // King
+        for (int i = 0; i < kingCount; i++)
+        {
+            int row = 4;
+            SpawnPiece(row, 7, kingPrefab, kingParent, Piece.PieceColor.Dark);
+        }
+    }
+
+    void SpawnPiece(int row, int col, GameObject piecePrefab, GameObject pieceParent, Piece.PieceColor pieceColor)
+    {
+        Vector2 spawnPos = board[row, col].transform.position;
+        GameObject newPiece = Instantiate(piecePrefab, spawnPos, Quaternion.identity);
+        newPiece.transform.SetParent(pieceParent.transform);
+
+        SpriteRenderer pieceRenderer = newPiece.GetComponent<SpriteRenderer>();
+        pieceRenderer.color = pieceColor == Piece.PieceColor.Light ? lightPieceColor : darkPieceColor;
+
+        Piece piece = newPiece.GetComponent<Piece>();
+        piece.Init(this);
+        piece.SetPieceColor(pieceColor);
+        piece.SetCurrentCell(board[row, col]);
     }
 
     public GameObject GetCell(int row, int col)

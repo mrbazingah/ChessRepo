@@ -328,7 +328,7 @@ GameObject:
   m_Component:
   - component: {fileID: 579614991}
   m_Layer: 0
-  m_Name: White Pieces
+  m_Name: Pieces
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,7 +343,7 @@ Transform:
   m_GameObject: {fileID: 579614990}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.68011, y: -2.32336, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -655,6 +655,70 @@ PrefabInstance:
       propertyPath: knightParent
       value: 
       objectReference: {fileID: 482443387}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: darkCellColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: darkCellColor.b
+      value: 0.3198053
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: darkCellColor.g
+      value: 0.4790041
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: darkCellColor.r
+      value: 0.61635214
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: darkPieceColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: darkPieceColor.b
+      value: 0.19342586
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: darkPieceColor.g
+      value: 0.29152328
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: darkPieceColor.r
+      value: 0.3773585
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: lightCellColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: lightCellColor.b
+      value: 0.62578607
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: lightCellColor.g
+      value: 0.8267032
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: lightCellColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: lightPieceColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: lightPieceColor.b
+      value: 0.5048652
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: lightPieceColor.g
+      value: 0.66263074
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388321092117282216, guid: 626dee6573e2fda4f924d6ad27346e7f, type: 3}
+      propertyPath: lightPieceColor.r
+      value: 0.7987421
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
