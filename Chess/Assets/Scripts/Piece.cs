@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
-    [SerializeField] protected GameObject currentCell;
-    [SerializeField] protected GameObject[,] possibleMoves;
+    protected GameObject currentCell;
+    protected GameObject[,] possibleMoves;
 
     protected bool hasMoved = false;
     protected BoardManager boardManager;
+    protected GameManager gameManager;
 
     public enum PieceColor
     {
@@ -16,9 +17,10 @@ public class Piece : MonoBehaviour
 
     protected PieceColor pieceColor;
 
-    public void Init(BoardManager manager)
+    public void Init(BoardManager boardManager, GameManager gameManager)
     {
-        boardManager = manager;
+        this.boardManager = boardManager;
+        this.gameManager = gameManager;
     }
 
     public void SetPieceColor(PieceColor color)
@@ -29,6 +31,11 @@ public class Piece : MonoBehaviour
     public PieceColor GetPieceColor()
     {
         return pieceColor;
+    }
+
+    void Start()
+    {
+        gameManager.AddToPieces(gameObject);
     }
 
     public virtual void CalculateMoves() { }
@@ -52,11 +59,22 @@ public class Piece : MonoBehaviour
         return false;
     }
 
-    public virtual void MovePiece(GameObject newCell)
+    public virtual void MovePiece(GameObject newCell, bool changeTurn = true)
     {
         hasMoved = true;
+
+        Piece captured = boardManager.GetPieceOnCell(newCell);
+        if (captured != null) 
+        { 
+            gameManager.RemoveFromPieces(captured.gameObject);
+            captured.gameObject.SetActive(false);
+            Destroy(captured.gameObject); 
+        }
+
         SetCurrentCell(newCell);
         transform.position = newCell.transform.position;
+
+        if (changeTurn) { gameManager.ChangeTurn(); }
     }
 
     public GameObject[,] GetPossibleMoves()

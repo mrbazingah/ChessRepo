@@ -12,6 +12,6 @@ public class Rook : Piece
             new Vector2Int(0, -1)
         };
 
-        possibleMoves = boardManager.CellCalculatorRay(currentCell, directions);
+        possibleMoves = boardManager.CellCalculatorRay(currentCell, directions, pieceColor);
     }
 }

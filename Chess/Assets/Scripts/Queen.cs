@@ -16,6 +16,6 @@ public class Queen : Piece
             new Vector2Int(-1, -1)
         };
 
-        possibleMoves = boardManager.CellCalculatorRay(currentCell, directions);
+        possibleMoves = boardManager.CellCalculatorRay(currentCell, directions, pieceColor);
     }
 }

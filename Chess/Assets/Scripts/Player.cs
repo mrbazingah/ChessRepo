@@ -7,10 +7,12 @@ public class Player : MonoBehaviour
     GameObject lastSelectedPiece;
 
     BoardManager boardManager;
+    GameManager gameManager;
 
     void Start()
     {
         boardManager = FindAnyObjectByType<BoardManager>();
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
     void Update()
@@ -33,6 +35,24 @@ public class Player : MonoBehaviour
         {
             if (hit.collider.gameObject.tag != "Cell")
             {
+                Piece hitPiece = hit.collider.gameObject.GetComponent<Piece>();
+                Piece.PieceColor hitColor = hitPiece.GetPieceColor();
+
+                if (gameManager.GetTurn() == GameManager.Turn.Light && hitColor != Piece.PieceColor.Light
+                    || gameManager.GetTurn() == GameManager.Turn.Dark && hitColor != Piece.PieceColor.Dark)
+                {
+                    if (selectedPiece != null)
+                    {
+                        Piece piece = selectedPiece.GetComponent<Piece>();
+                        if (piece.IsValidMove(hitPiece.GetCurrentCell()))
+                        {
+                            piece.MovePiece(hitPiece.GetCurrentCell());
+                        }
+                    }
+                    selectedPiece = null;
+                    return;
+                }
+
                 // If the king is selected and the user clicks a rook, try to castle
                 if (selectedPiece != null)
                 {
@@ -46,7 +66,7 @@ public class Player : MonoBehaviour
 
                 selectedPiece = hit.collider.gameObject;
             }
-            else if (hit.collider.gameObject.tag == "Cell" && selectedPiece != null)
+            else if (selectedPiece != null)
             {
                 Piece piece = selectedPiece.GetComponent<Piece>();
                 if (piece.IsValidMove(hit.collider.gameObject))

@@ -16,6 +16,6 @@ public class Knight : Piece
             new Vector2Int(-2, -1)
         };
 
-        possibleMoves = boardManager.CellCalculator(currentCell, directions);
+        possibleMoves = boardManager.CellCalculator(currentCell, directions, pieceColor);
     }
 }

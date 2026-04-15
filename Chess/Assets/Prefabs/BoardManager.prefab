@@ -48,8 +48,8 @@ MonoBehaviour:
   cellParent: {fileID: 0}
   boardSize: 8
   startPos: {x: -3.5, y: -3.5}
-  lightColor: {r: 1, g: 0.8633998, b: 0.740566, a: 1}
-  darkColor: {r: 0.5849056, g: 0.43562463, b: 0.30624774, a: 1}
+  lightCellColor: {r: 1, g: 0.8267032, b: 0.62578607, a: 1}
+  darkCellColor: {r: 0.61635214, g: 0.4790041, b: 0.3198053, a: 1}
   pawnPrefab: {fileID: 4262549721440028882, guid: c411c089c4f5b7c46bdeb74cb42a31ac, type: 3}
   pawnParent: {fileID: 0}
   pawnCount: 8
@@ -65,3 +65,8 @@ MonoBehaviour:
   queenPrefab: {fileID: 1004830067679698448, guid: 930b55fd7c0f48e42aaec9be0ed5603f, type: 3}
   queenParent: {fileID: 0}
   queenCount: 1
+  kingPrefab: {fileID: 7331872638272756270, guid: 26d2e8cb040e04e48b2e85b273c85d3d, type: 3}
+  kingParent: {fileID: 0}
+  kingCount: 1
+  lightPieceColor: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
+  darkPieceColor: {r: 0.26431975, g: 0.26266763, b: 0.3584906, a: 1}

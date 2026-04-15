@@ -42,10 +42,12 @@ public class BoardManager : MonoBehaviour
     GameObject[,] board;
 
     Player player;
+    GameManager gameManager;
 
     void Start()
     {
         player = FindAnyObjectByType<Player>();
+        gameManager = FindAnyObjectByType<GameManager>();
 
         GenerateBoard();
         GenerateWhitePieces();
@@ -172,7 +174,7 @@ public class BoardManager : MonoBehaviour
         pieceRenderer.color = pieceColor == Piece.PieceColor.Light ? lightPieceColor : darkPieceColor;
 
         Piece piece = newPiece.GetComponent<Piece>();
-        piece.Init(this);
+        piece.Init(this, gameManager);
         piece.SetPieceColor(pieceColor);
         piece.SetCurrentCell(board[row, col]);
     }
@@ -184,7 +186,7 @@ public class BoardManager : MonoBehaviour
         return board[row, col];
     }
 
-    public GameObject[,] CellCalculator(GameObject currentCell, Vector2Int[] directions)
+    public GameObject[,] CellCalculator(GameObject currentCell, Vector2Int[] directions, Piece.PieceColor? pieceColor = null)
     {
         Vector2Int coords = GetCellCoords(currentCell);
         GameObject[,] result = new GameObject[boardSize, boardSize];
@@ -194,10 +196,26 @@ public class BoardManager : MonoBehaviour
             int newRow = coords.x + directions[i].x;
             int newCol = coords.y + directions[i].y;
             GameObject cell = GetCell(newRow, newCol);
-            if (cell != null && !IsCellOccupied(cell)) { result[newRow, newCol] = cell; }
+            if (cell == null) { continue; }
+
+            Piece occupant = GetPieceOnCell(cell);
+            if (occupant == null || (pieceColor != null && occupant.GetPieceColor() != pieceColor))
+            {
+                result[newRow, newCol] = cell;
+            }
         }
 
         return result;
+    }
+
+    public Piece GetPieceOnCell(GameObject cell)
+    {
+        Piece[] pieces = FindObjectsByType<Piece>(FindObjectsSortMode.None);
+        foreach (Piece piece in pieces)
+        {
+            if (piece.GetCurrentCell() == cell) { return piece; }
+        }
+        return null;
     }
 
     public Vector2Int GetCellCoords(GameObject cell)
@@ -248,8 +266,9 @@ public class BoardManager : MonoBehaviour
     }
 
     // Like CellCalculator but treats each direction as a ray: steps one square
-    // at a time and stops when a piece is in the way (blocking piece not included).
-    public GameObject[,] CellCalculatorRay(GameObject currentCell, Vector2Int[] unitDirections)
+    // at a time and stops when a piece is in the way. Enemy pieces are included
+    // as capture targets when pieceColor is provided.
+    public GameObject[,] CellCalculatorRay(GameObject currentCell, Vector2Int[] unitDirections, Piece.PieceColor? pieceColor = null)
     {
         Vector2Int coords = GetCellCoords(currentCell);
         GameObject[,] result = new GameObject[boardSize, boardSize];
@@ -263,7 +282,16 @@ public class BoardManager : MonoBehaviour
             {
                 GameObject cell = GetCell(row, col);
                 if (cell == null) { break; }
-                if (IsCellOccupied(cell)) { break; }
+
+                Piece occupant = GetPieceOnCell(cell);
+                if (occupant != null)
+                {
+                    if (pieceColor != null && occupant.GetPieceColor() != pieceColor)
+                    {
+                        result[row, col] = cell;
+                    }
+                    break;
+                }
 
                 result[row, col] = cell;
                 row += dir.x;

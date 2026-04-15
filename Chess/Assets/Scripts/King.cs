@@ -16,7 +16,7 @@ public class King : Piece
             new Vector2Int(-1, 0)
         };
 
-        possibleMoves = boardManager.CellCalculator(currentCell, directions);
+        possibleMoves = boardManager.CellCalculator(currentCell, directions, pieceColor);
 
         if (!hasMoved)
         {
@@ -31,6 +31,7 @@ public class King : Piece
 
         foreach (Rook rook in rooks)
         {
+            if (rook.GetPieceColor() != pieceColor) continue;
             if (rook.HasMoved()) continue;
 
             Vector2Int rookCoords = boardManager.GetCellCoords(rook.GetCurrentCell());
@@ -74,7 +75,7 @@ public class King : Piece
         }
     }
 
-    public override void MovePiece(GameObject newCell)
+    public override void MovePiece(GameObject newCell, bool changeTurn = true)
     {
         Vector2Int oldCoords = boardManager.GetCellCoords(currentCell);
         Vector2Int newCoords = boardManager.GetCellCoords(newCell);
@@ -82,7 +83,7 @@ public class King : Piece
 
         bool isCastling = (Mathf.Abs(diff.x) == 2 && diff.y == 0) || (Mathf.Abs(diff.y) == 2 && diff.x == 0);
 
-        base.MovePiece(newCell);
+        base.MovePiece(newCell, changeTurn);
 
         if (isCastling)
         {
@@ -107,9 +108,10 @@ public class King : Piece
                 bool found = false;
                 foreach (Rook rook in rooks)
                 {
+                    if (rook.GetPieceColor() != pieceColor) continue;
                     if (rook.GetCurrentCell() == searchCell)
                     {
-                        if (rookDestCell != null) { rook.MovePiece(rookDestCell); }
+                        if (rookDestCell != null) { rook.MovePiece(rookDestCell, false); }
 
                         found = true;
 
@@ -165,7 +167,7 @@ public class King : Piece
         if (kingDestCell == null || rookDestCell == null) { return false; }
 
         base.MovePiece(kingDestCell);
-        rook.MovePiece(rookDestCell);
+        rook.MovePiece(rookDestCell, false);
 
         return true;
     }
