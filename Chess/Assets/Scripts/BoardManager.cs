@@ -1,6 +1,6 @@
-using UnityEditor.Search;
+using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI.Table;
+using static Piece;
 
 public class BoardManager : MonoBehaviour
 {
@@ -38,16 +38,21 @@ public class BoardManager : MonoBehaviour
     [Space]
     [SerializeField] Color lightPieceColor;
     [SerializeField] Color darkPieceColor;
+    [Header("Promotion")]
+    [SerializeField] GameObject promotionUI;
 
     GameObject[,] board;
 
     Player player;
     GameManager gameManager;
+    Pawn promotionPawn;
 
     void Start()
     {
         player = FindAnyObjectByType<Player>();
         gameManager = FindAnyObjectByType<GameManager>();
+
+        ClosePromotionUI();
 
         GenerateBoard();
         GenerateWhitePieces();
@@ -311,5 +316,100 @@ public class BoardManager : MonoBehaviour
                 board[row, col].GetComponent<Cell>().GetHighlight().SetActive(false);
             }
         }
+    }
+
+    public void OpenPromotionUI(Pawn pawn)
+    {
+        promotionPawn = pawn;
+        promotionUI.SetActive(true);
+    }
+
+    public void ClosePromotionUI()
+    {
+        promotionUI.SetActive(false);
+    }
+
+    public void Promote(string pieceType)
+    {
+        int row = 0;
+        int col = 0;
+        bool breaking = false;
+
+        for (row = 0; row < board.GetLength(0); row++)
+        {
+            for (col = 0; col < board.GetLength(1); col++)
+            {
+                if (board[row, col] == promotionPawn.GetCurrentCell())
+                {
+                    breaking = true;
+                    break;
+                }
+            }
+
+            if (breaking) { break; }
+        }
+
+        GameObject piecePrefab = null;
+        GameObject pieceParent = null;
+
+        switch (pieceType)
+        {
+            case "Queen":
+                piecePrefab = queenPrefab;
+                pieceParent = queenParent;
+                break;
+            case "Rook":
+                piecePrefab = rookPrefab;
+                pieceParent = rookParent;
+                break;
+            case "Bishop":
+                piecePrefab = bishopPrefab;
+                pieceParent = bishopParent;
+                break;
+            case "Knight":
+                piecePrefab = knightPrefab;
+                pieceParent = knightParent;
+                break;
+        }
+
+        Piece.PieceColor color = promotionPawn.GetPieceColor();
+
+        SpawnPiece(row, col, piecePrefab, pieceParent, color);
+
+        if (promotionPawn != null)
+        {
+            gameManager.RemoveFromPieces(promotionPawn.gameObject);
+        }
+
+        promotionPawn.gameObject.SetActive(false);
+        Destroy(promotionPawn.gameObject);
+
+        ClosePromotionUI();
+        gameManager.ChangeTurn();
+    }
+
+    public bool CanPromote(GameObject currentCell, Pawn newPawn)
+    {
+        for (int row = 0; row < board.GetLength(0); row++)
+        {
+            for (int col = 0; col < board.GetLength(1); col++)
+            {
+                if (board[row, col] == currentCell)
+                {
+                    bool shouldPromote = newPawn.GetPieceColor() == PieceColor.Light
+                        ? col == board.GetLength(1) - 1
+                        : col == 0;
+                    if (shouldPromote) OpenPromotionUI(newPawn);
+                    return shouldPromote;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public GameObject[,] GetBoard()
+    {
+        return board;
     }
 }

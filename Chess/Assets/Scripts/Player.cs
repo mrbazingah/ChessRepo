@@ -29,7 +29,14 @@ public class Player : MonoBehaviour
         if (!value.isPressed) { return; }
 
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(worldPos, Vector2.zero);
+
+        RaycastHit2D hit = default;
+        foreach (RaycastHit2D h in hits)
+        {
+            if (h.collider.gameObject.tag != "Cell") { hit = h; break; }
+        }
+        if (hit.collider == null && hits.Length > 0) { hit = hits[0]; }
 
         if (hit.collider != null)
         {
@@ -46,7 +53,9 @@ public class Player : MonoBehaviour
                         Piece piece = selectedPiece.GetComponent<Piece>();
                         if (piece.IsValidMove(hitPiece.GetCurrentCell()))
                         {
-                            piece.MovePiece(hitPiece.GetCurrentCell());
+                            Pawn pawn = selectedPiece.GetComponent<Pawn>();
+                            bool isPromotion = pawn != null && boardManager.CanPromote(hitPiece.GetCurrentCell(), pawn);
+                            piece.MovePiece(hitPiece.GetCurrentCell(), !isPromotion);
                         }
                     }
                     selectedPiece = null;
@@ -68,10 +77,18 @@ public class Player : MonoBehaviour
             }
             else if (selectedPiece != null)
             {
+                bool changeTurn = true;
+
+                Pawn pawn = selectedPiece.GetComponent<Pawn>();
+                if (pawn != null && boardManager.CanPromote(hit.collider.gameObject, pawn))
+                {
+                    changeTurn = false;
+                }
+
                 Piece piece = selectedPiece.GetComponent<Piece>();
                 if (piece.IsValidMove(hit.collider.gameObject))
                 {
-                    piece.MovePiece(hit.collider.gameObject);
+                    piece.MovePiece(hit.collider.gameObject, changeTurn);
                 }
 
                 selectedPiece = null;
